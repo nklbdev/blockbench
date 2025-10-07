@@ -2245,6 +2245,8 @@
 	"settings.audio_scrubbing.desc": "播放音频的简短预览，同时拖动时间轴",
 	"settings.viewport_rotate_speed": "视口旋转速度",
 	"settings.viewport_rotate_speed.desc": "在视口中旋转时的灵敏度",
+	"settings.viewport_pan_speed": "Viewport Pan Speed",
+	"settings.viewport_pan_speed.desc": "Input sensitivity when panning in the viewport",
 	"settings.viewport_zoom_speed": "视口缩放速度",
 	"settings.viewport_zoom_speed.desc": "在视口中缩放时的输入灵敏度",
 	"settings.editor_2d_zoom_speed": "2D 编辑器缩放速度",

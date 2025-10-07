@@ -2245,6 +2245,8 @@
 	"settings.audio_scrubbing.desc": "Play short previews of the audio while scrubbing through time timeline",
 	"settings.viewport_rotate_speed": "ビューポート回転速度",
 	"settings.viewport_rotate_speed.desc": "Input sensitivity when rotating in the viewport",
+	"settings.viewport_pan_speed": "Viewport Pan Speed",
+	"settings.viewport_pan_speed.desc": "Input sensitivity when panning in the viewport",
 	"settings.viewport_zoom_speed": "ビューポートズーム速度",
 	"settings.viewport_zoom_speed.desc": "Input sensitivity when zooming in the viewport",
 	"settings.editor_2d_zoom_speed": "2D エディタのズーム速度",

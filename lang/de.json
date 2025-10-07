@@ -2245,6 +2245,8 @@
 	"settings.audio_scrubbing.desc": "Spielt während des Bewegens auf der Timeline kurze Audioschnipsel zur Vorschau ab",
 	"settings.viewport_rotate_speed": "Rotationsgeschwindigkeit bei Navigation",
 	"settings.viewport_rotate_speed.desc": "Empfindlichkeit der Steuerung zur Drehung bei der Navigation im Vorschaufenster",
+	"settings.viewport_pan_speed": "Viewport Pan Speed",
+	"settings.viewport_pan_speed.desc": "Input sensitivity when panning in the viewport",
 	"settings.viewport_zoom_speed": "Zoomgeschwindigkeit bei Navigation",
 	"settings.viewport_zoom_speed.desc": "Empfindlichkeit der Steuerung zum Zoomen bei der Navigation im Vorschaufenster",
 	"settings.editor_2d_zoom_speed": "2D Editor Zoomgeschwindigkeit",

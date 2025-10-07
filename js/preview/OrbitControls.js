@@ -34,6 +34,7 @@ constructor ( object, preview ) {
 	this.zoomSpeed = 1.0;
 	this.enableRotate = true;
 	this.rotateSpeed = 1.0;
+	this.panSpeed = 1.0;
 	this.enablePan = true;
 	this.keyPanSpeed = 7.0;	// pixels moved per arrow key push
 	this.autoRotate = false;
@@ -326,8 +327,9 @@ constructor ( object, preview ) {
 				targetDistance *= Math.tan( ( scope.object.fov / 2 ) * Math.PI / 180.0 );
 
 				// we actually don't use screenWidth, since perspective camera is fixed to screen height
-				panLeft( 2 * deltaX * targetDistance / element.clientHeight, scope.object.matrix );
-				panUp( 2 * deltaY * targetDistance / element.clientHeight, scope.object.matrix );
+				// add pan speed!!!
+				panLeft( 2 * deltaX * targetDistance * scope.panSpeed / element.clientHeight, scope.object.matrix );
+				panUp( 2 * deltaY * targetDistance * scope.panSpeed / element.clientHeight, scope.object.matrix );
 
 			} else if ( scope.object instanceof THREE.OrthographicCamera ) {
 
@@ -445,6 +447,7 @@ constructor ( object, preview ) {
 	function handleMouseMovePan( event ) {
 		panEnd.set( event.clientX, event.clientY );
 		panDelta.subVectors( panEnd, panStart );
+		// hmm
 		pan( panDelta.x, panDelta.y );
 		panStart.copy( panEnd );
 

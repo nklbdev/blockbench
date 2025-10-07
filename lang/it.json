@@ -2245,6 +2245,8 @@
 	"settings.audio_scrubbing.desc": "Riproduci brevi anteprime dell'audio durante lo scrubbing nella linea temporale",
 	"settings.viewport_rotate_speed": "Velocità di rotazione della finestra",
 	"settings.viewport_rotate_speed.desc": "Sensibilità di input durante la rotazione nella finestra",
+	"settings.viewport_pan_speed": "Viewport Pan Speed",
+	"settings.viewport_pan_speed.desc": "Input sensitivity when panning in the viewport",
 	"settings.viewport_zoom_speed": "Velocità di zoom della finestra",
 	"settings.viewport_zoom_speed.desc": "Sensibilità di input durante lo zoom nella finestra",
 	"settings.editor_2d_zoom_speed": "Velocità di zoom dell'editor 2D",

@@ -2245,6 +2245,8 @@
 	"settings.audio_scrubbing.desc": "Zaman çizelgesinde sürüklerken sesin kısa önizlemelerini çalın",
 	"settings.viewport_rotate_speed": "Görünüm Alanı Döndürme Hızı",
 	"settings.viewport_rotate_speed.desc": "Görünüm alanında dönerken giriş hassasiyeti",
+	"settings.viewport_pan_speed": "Viewport Pan Speed",
+	"settings.viewport_pan_speed.desc": "Input sensitivity when panning in the viewport",
 	"settings.viewport_zoom_speed": "Görünüm Alanı Yakınlaştırma Hızı",
 	"settings.viewport_zoom_speed.desc": "Görünüm alanında yakınlaştırırken giriş hassasiyeti",
 	"settings.editor_2d_zoom_speed": "2B Düzenleyici Yakınlaştırma Hızı",

@@ -2245,6 +2245,8 @@
 	"settings.audio_scrubbing.desc": "Проигрывать короткий отрывок аудио при прокручивании временной шкалы",
 	"settings.viewport_rotate_speed": "Скорость вращения вьюпорта",
 	"settings.viewport_rotate_speed.desc": "Изменить чувствительность при проворачивании вьюпорта",
+	"settings.viewport_pan_speed": "Viewport Pan Speed",
+	"settings.viewport_pan_speed.desc": "Input sensitivity when panning in the viewport",
 	"settings.viewport_zoom_speed": "Скорость приближения вьюпорта",
 	"settings.viewport_zoom_speed.desc": "Изменить чувствительность при приближении вьюпорта",
 	"settings.editor_2d_zoom_speed": "Скорость приближения 2D-редактора",

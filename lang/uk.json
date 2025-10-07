@@ -2245,6 +2245,8 @@
 	"settings.audio_scrubbing.desc": "Відтворювати короткі прев’ю аудіо під час перегляду на часовій шкалі",
 	"settings.viewport_rotate_speed": "Швидкість обертання у вікні перегляду",
 	"settings.viewport_rotate_speed.desc": "Чутливість введення при обертанні у вікні перегляду",
+	"settings.viewport_pan_speed": "Viewport Pan Speed",
+	"settings.viewport_pan_speed.desc": "Input sensitivity when panning in the viewport",
 	"settings.viewport_zoom_speed": "Швидкість масштабування у вікні перегляду",
 	"settings.viewport_zoom_speed.desc": "Чутливість введення при масштабуванні у вікні перегляду",
 	"settings.editor_2d_zoom_speed": "Швидкість масштабування у 2D редакторі",

@@ -135,6 +135,9 @@ function setupSettings() {
 	new Setting('viewport_zoom_speed',		{category: 'controls', value: 100, min: 10, max: 1000, type: 'number', onChange(value) {
 		Preview.all.forEach(viewport => viewport.controls.zoomSpeed = value / 100 * 1.5)
 	}});
+	new Setting('viewport_pan_speed',	    {category: 'controls', value: 100, min: 10, max: 1000, type: 'number', onChange(value) {
+		Preview.all.forEach(viewport => viewport.controls.panSpeed = value / 100)
+	}});
 	new Setting('editor_2d_zoom_speed',		{category: 'controls', value: 100, min: 10, max: 1000, type: 'number'});
 	new Setting('gamepad_controls',			{category: 'controls', value: false, name: 'Gamepad Controls', description: 'Use a gamepad or 3D mouse to navigate the viewport'});
 	new Setting('double_click_switch_tools',{category: 'controls', value: true});

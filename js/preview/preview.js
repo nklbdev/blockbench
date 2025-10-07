@@ -229,6 +229,7 @@ export class Preview {
 		this.controls.enableKeys = false;
 		this.controls.zoomSpeed = settings.viewport_zoom_speed.value / 100 * 1.5;
 		this.controls.rotateSpeed = settings.viewport_rotate_speed.value / 100;
+		this.controls.panSpeed = settings.viewport_pan_speed.value / 100;
 		this.controls.onUpdate(() => {
 			if (this.angle != null) {
 				if (this.camOrtho.axis != 'x') this.side_view_target.x = this.controls.target.x;
@@ -275,6 +276,7 @@ export class Preview {
 		}
 
 		//Keybinds
+		// hmm
 		this.controls.mouseButtons.ZOOM = undefined;
 
 		//Renderer
@@ -700,6 +702,7 @@ export class Preview {
 		if (preset.projection !== 'unset') {
 			this.setProjectionMode(preset.projection == 'orthographic')
 		}
+		// hmm
 		if (this.isOrtho && preset.zoom && !preset.locked_angle) {
 			this.camera.zoom = preset.zoom;
 			this.camera.updateProjectionMatrix()
