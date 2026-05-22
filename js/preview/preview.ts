@@ -443,6 +443,21 @@ export class Preview {
 		this.raycaster = new THREE.Raycaster();
 		this.mouse = new THREE.Vector2();
 		addEventListeners(this.canvas, 'pointerdown', (event: PointerEvent) => {
+			// Self-healing: on every genuine pointerdown, clean up any leftover
+			// state from a previous interaction that wasn't properly finalized.
+			if (this.selection.deferred_event || this.selection.sr_stop_f) {
+				if (this.selection.sr_move_f) {
+					removeEventListeners(document, 'mousemove touchmove', this.selection.sr_move_f);
+					delete this.selection.sr_move_f;
+				}
+				if (this.selection.sr_stop_f) {
+					removeEventListeners(document, 'mouseup touchend', this.selection.sr_stop_f);
+					delete this.selection.sr_stop_f;
+				}
+				this.selection.box.remove();
+				this.selection.deferred_event = null;
+				this.selection.activated = false;
+			}
 			this.click(event)
 		}, { passive: false });
 		addEventListeners(this.canvas, 'mousemove touchmove', (event: MouseEvent) => {
