@@ -232,7 +232,7 @@ let limit_slider = new NumSlider('slider_weight_brush_limit', {
 	category: 'edit',
 	
 	settings: {
-		min: 1, max: 100, interval: 1, default: 100, show_bar: true,
+		min: 0, max: 100, interval: 1, default: 100, show_bar: true,
 	}
 })
 new Toggle('weight_brush_xray', {

@@ -1327,15 +1327,24 @@ import { TransformerModule } from "./transform_modules";
 					scope.dispatchEvent( changeEvent );
 				}
 			}
+			var _saved_pointer_event = null;
 			function onPointerDown( event ) {
 				
 				document.addEventListener( "mouseup", onPointerUp, false );
+
+				_saved_pointer_event = event;
+				_moved = false;
 
 				if ( scope.elements.length === 0 || _dragging === true || ( event.button !== undefined && event.button !== 0  ) ) return;
 				var pointer = event.changedTouches ? event.changedTouches[ 0 ] : event;
 				if ( pointer.button === 0 || pointer.button === undefined ) {
 
+					// Gizmo obscured by scene geometry in orthographic view —
+					// trust the hover detection from the last mousemove.
 					var intersect = intersectObjects( pointer, _gizmo[ _mode ].pickers.children ) || SplineGizmos.interesct(pointer, intersectObjects);
+					if (!intersect && scope.axis) {
+						intersect = { object: { name: scope.axis } };
+					}
 					if ( intersect ) {
 						scope.was_clicked = true;
 						if ( scope.axis == "C1" || scope.axis == "C2" || scope.axis == "J" ) {
@@ -1395,10 +1404,12 @@ import { TransformerModule } from "./transform_modules";
 					}
 				}
 			}
+			var _moved = false;
 			function onPointerMove( event ) {
 
 				if ( scope.elements.length == 0 || scope.axis === null || _dragging === false || ( event.button !== undefined && event.button !== 0 ) ) return;
 
+				_moved = true;
 				scope.orbit_controls.hasMoved = true
 				var pointer = event.changedTouches ? event.changedTouches[ 0 ] : event;
 				var planeIntersect = intersectObjects( pointer, [ _gizmo[ _mode ].activePlane ] );
@@ -1466,9 +1477,10 @@ import { TransformerModule } from "./transform_modules";
 			}
 			function onPointerUp( event, keep_changes = true ) {
 				//event.preventDefault(); // Prevent MouseEvent on mobile
+				var _was_clicked = scope.was_clicked;
+				scope.was_clicked = false;
 				document.removeEventListener( "mouseup", onPointerUp );
 				PointerTarget.endTarget();
-				scope.was_clicked = false;
 
 				document.removeEventListener( "mousemove", onPointerMove );
 				document.removeEventListener( "touchmove", onPointerMove );
@@ -1512,6 +1524,20 @@ import { TransformerModule } from "./transform_modules";
 					}
 				}
 				_dragging = false;
+
+				// Click on gizmo with no drag — replay as normal selection click
+				if (!_moved && _was_clicked && _saved_pointer_event && Preview?.selected) {
+					const saved_axis = scope.axis;
+					scope.axis = null;
+					scope.hoverAxis = null;
+					scope.was_clicked = false;
+					// Pretend startSelRect was called so click() skips phase one
+					// (area-select) and runs normal selection logic directly.
+					Preview.selected.selection.deferred_event = _saved_pointer_event;
+					Preview.selected.click(_saved_pointer_event);
+					Preview.selected.selection.deferred_event = null;
+					scope.axis = saved_axis;
+				}
 
 				if ( 'TouchEvent' in window && event instanceof TouchEvent ) {
 					// Force "rollover"
