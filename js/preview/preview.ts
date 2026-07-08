@@ -1026,7 +1026,8 @@ export class Preview {
 		// and go directly to rectangle drag. This prevents the initial
 		// mouse-down from selecting an element before the drag begins.
 		// Exception: if deferred_event is already set, we're replaying a click — process normally.
-		if (!this.selection.deferred_event &&
+		// Paint tools & non-selecting tools skip this entirely — they need immediate response.
+		if (!this.selection.deferred_event && !Toolbox.selected.paintTool && Toolbox.selected.selectElements &&
 			Keybinds.extra.preview_area_select.keybind.isTriggered(event)) {
 			if (_data) {
 				this.selection.click_target = _data as RaycastResult;
@@ -1242,6 +1243,38 @@ export class Preview {
 
 			} else if (data.type == 'vertex' && Toolbox.selected.id !== 'vertex_snap_tool') {
 				let mesh = data.element as Mesh;
+
+				// In vertex selection mode, a face obscured by the vertex-point
+				// depth-offset bias may be closer to the user's intended target.
+				// If the hit vertex is not on the nearest intersected face,
+				// snap to the closest vertex of that face instead.
+				if (select_mode === 'vertex') {
+					const face_hit = data.intersects.find(i =>
+						i.object.isElement && !i.object.isLine && !i.object.isPoints);
+					if (face_hit && face_hit.faceIndex != null) {
+						let index = face_hit.faceIndex;
+						let face_key = null;
+						for (let key in mesh.faces) {
+							const vs = mesh.faces[key].vertices;
+							if (vs.length < 3) continue;
+							if (index == 0 || (index == 1 && vs.length == 4)) { face_key = key; break; }
+							if (vs.length == 3) index -= 1;
+							if (vs.length == 4) index -= 2;
+						}
+						if (face_key && !mesh.faces[face_key].vertices.includes(data.vertex)) {
+							const cp = face_hit.point;
+							let best_vkey = null, best_d2 = Infinity;
+							for (const vkey of mesh.faces[face_key].vertices) {
+								const d2 = mesh.mesh.localToWorld(
+									Reusable.vec1.fromArray(mesh.vertices[vkey])
+								).distanceToSquared(cp);
+								if (d2 < best_d2) { best_d2 = d2; best_vkey = vkey; }
+							}
+							if (best_vkey) data.vertex = best_vkey;
+						}
+					}
+				}
+
 				Undo.initSelection();
 				let list = mesh.getSelectedVertices(true);
 				let edges: MeshEdge[];
@@ -1347,7 +1380,7 @@ export class Preview {
 				Blockbench.dispatchEvent('canvas_click', data)
 			}
 
-			if (!this.selection.deferred_event &&
+			if (!this.selection.deferred_event && !Toolbox.selected.paintTool &&
 				Keybinds.extra.preview_area_select.keybind.isTriggered(event)) {
 				this.startSelRect(event)
 			}
@@ -1358,7 +1391,7 @@ export class Preview {
 			Toolbox.selected.onCanvasClick({event, type: 'none'});
 		}
 
-		if (!this.selection.deferred_event &&
+		if (!this.selection.deferred_event && !Toolbox.selected.paintTool &&
 			Keybinds.extra.preview_area_select.keybind.isTriggered(event)) {
 			this.startSelRect(event)
 		} else {
@@ -1629,6 +1662,11 @@ export class Preview {
 	//Selection Rectangle
 	startSelRect(event: PointerEvent) {
 		if (this.selection.sr_move_f) return;
+
+		// Tools that don't select elements (weight brush, etc.) — no rectangle.
+		// Must return BEFORE deferred_event is saved, so click() processes normally.
+		if (Toolbox.selected.selectElements == false) return;
+
 		const scope = this;
 
 		// Saving event and reset activated to state before selectElements check
@@ -1638,8 +1676,6 @@ export class Preview {
 		this.selection.start_y = event.offsetY+0
 		this.selection.client_x = event.clientX+0
 		this.selection.client_y = event.clientY+0
-
-		if (Toolbox.selected.selectElements == false) return;
 
 		if (Modes.edit) {
 			this.selection.sr_move_f = function(event) { scope.moveSelRect(event)}
